@@ -54,6 +54,9 @@ int main ()
     Assemble assemble(&cmesh);
     auto neq = assemble.NEquations();
     SparseMat globmat(neq,neq);
+    typedef Eigen::Triplet<double> T;
+    std::vector<T> triplets(10);
+    globmat.setFromTriplets(triplets.begin(), triplets.end());
     MatrixDouble rhs(neq,1);
     assemble.Compute(globmat, rhs);
     return 0;
