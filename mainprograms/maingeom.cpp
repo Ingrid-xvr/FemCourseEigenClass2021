@@ -6,19 +6,19 @@
 using namespace std;
 
 
-void ShapeFunc1D();
+void Geom1dFunc();
 
 int main() {
-    ShapeFunc1D();
+    Geom1dFunc();
     return 0;
 }
 
-void ShapeFunc1D(){
+void Geom1dFunc(){
     
     Geom1d geom1d;
     
     // Number of nodes of the element and dimension where the element exists
-    const int64_t nnodes = 2;
+    const int nnodes = 2;
     const int dim = 1;
             
     // Element nodes
@@ -33,8 +33,8 @@ void ShapeFunc1D(){
     testpts << -1,-0.5,0.,0.5,1.;
     for(int i = 0 ; i < testpts.size() ; i++) {
         xi[0] = testpts[i];
-        geom1d.GradX(xi, NodeCo, x, gradx);
+        Geom1d::GradX(xi, NodeCo, x, gradx);
         cout << "------ csi = " << xi[0] << " ------" << endl;
         cout << "x = " << x << "\t|\tgradx = " << gradx << endl;
-    }    
+    }
 }

@@ -173,17 +173,24 @@ void CompElement::CalcStiff(MatrixDouble &ek, MatrixDouble &ef) const {
     MathStatement *material = this->GetStatement();
     if (!material) {
         std::cout << "Error at CompElement::CalcStiff" << std::endl;
-        return;
+        DebugStop();
     }
     // Second, you should clear the matrices you're going to compute
     ek.setZero();
     ef.setZero();
 
-    //+++++++++++++++++
-    // Please implement me
-    std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-    DebugStop();
-    //+++++++++++++++++
+    const int npts = intrule->NPoints();
+    const int dim = Dimension();
+    
+    IntPointData data;
+    InitializeIntPointData(data);
+    
+    for(int i = 0 ; i < npts ; i++) {
+        intrule->Point(i, data.ksi, data.weight);
+        ComputeRequiredData(data, data.ksi);
+        data.weight *= fabs(data.detjac);
+        material->Contribute(data, data.weight, ek, ef);
+    }
 }
 
 void CompElement::EvaluateError(std::function<void(const VecDouble &loc, VecDouble &val, MatrixDouble &deriv) > fp, VecDouble &errors) const {

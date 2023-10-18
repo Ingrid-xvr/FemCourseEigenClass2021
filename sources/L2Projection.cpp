@@ -63,7 +63,7 @@ void L2Projection::Contribute(IntPointData &data, double weight, MatrixDouble &E
         std::cout << "Please implement me\n";
         DebugStop();
     }
-    auto nshape = data.phi.size();
+    int64_t nshape = data.phi.size();
     if(EK.rows() != nshape || EF.rows() != nshape)
     {
         DebugStop();
@@ -79,16 +79,15 @@ void L2Projection::Contribute(IntPointData &data, double weight, MatrixDouble &E
         SolutionExact(data.x, result, deriv);
     }
 
-    //+++++++++++++++++
-    // Please implement me
-    std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-    DebugStop();
-
+    /// BCType:
+    /// 0: Dirichlet, 1: Neumann, 2: Mixed
     switch (this->GetBCType()) {
 
         case 0:
         {
-            // Your code here
+            EF += weight * data.phi * result[0] * gBigNumber;
+            EK += gBigNumber * weight * data.phi * data.phi.transpose();
+            
             break;
         }
 

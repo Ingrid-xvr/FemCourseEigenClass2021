@@ -25,7 +25,7 @@ void Geom1d::Shape(const VecDouble &xi, VecDouble &phi, MatrixDouble &dphi) {
     if (xi.size() != Dimension || phi.size() != nCorners || dphi.rows() != Dimension || dphi.cols() != nCorners) DebugStop();
     
     phi[0] = (1. - xi[0]) / 2.;
-    phi[1] = (1 + xi[0]) / 2.;
+    phi[1] = (1. + xi[0]) / 2.;
     
     dphi(0, 0) = -0.5;
     dphi(0, 1) = 0.5;
