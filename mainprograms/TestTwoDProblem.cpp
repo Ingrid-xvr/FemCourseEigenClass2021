@@ -29,11 +29,15 @@ int main ()
 {
     GeoMesh gmesh;
     ReadGmsh read;
-    std::string filename("quads.msh");
+    
+    bool recombine = false;
+    
+    std::string filename = (recombine) ? "MeshQuad" : "MeshTri";
+
 #ifdef MACOSX
     filename = "../"+filename;
 #endif
-    read.Read(gmesh,filename);
+    read.Read(gmesh,filename+".msh");
 
     CompMesh cmesh(&gmesh);
     MatrixDouble perm(3,3);
@@ -46,30 +50,44 @@ int main ()
 
     auto force = [](const VecDouble &x, VecDouble &res)
     {
-        res[0] = 2.*(1.-x[0])*x[0]+2.*(1-x[1])*x[1];
+        res[0] = 0.;
+        //res[0] = 2.*(1.-x[0])*x[0]+2.*(1-x[1])*x[1];
     };
+
+    auto exact = [](const VecDouble &x, VecDouble &val, MatrixDouble &deriv)
+    {
+        const double tempX = x[0];
+        const double tempY = x[1];
+
+        val[0] = tempX*tempY;
+        deriv(0,0) = tempY;
+        deriv(1,0) = tempX;
+
+        //val[0] = (1.-x[0])*x[0]*(1-x[1])*x[1];
+        //deriv(0,0) = (1.-2.*x[0])*(1-x[1])*x[1];
+        //deriv(1,0) = (1-2.*x[1])*(1-x[0])*x[0];
+    };
+    
     mat1->SetForceFunction(force);
     MatrixDouble proj(1,1),val1(1,1),val2(1,1);
     proj.setZero();
     val1.setZero();
     val2.setZero();
     L2Projection *bc_linha = new L2Projection(0,2,proj,val1,val2);
-    L2Projection *bc_point = new L2Projection(0,3,proj,val1,val2);
-    std::vector<MathStatement *> mathvec = {0,mat1,bc_point,bc_linha};
-    cmesh.SetMathVec(mathvec);
+    bc_linha->SetExactSolution(exact);
+//    L2Projection *bc_point = new L2Projection(0,3,proj,val1,val2);
+   std::vector<MathStatement *> mathvec = {0,mat1,bc_linha};
+   cmesh.SetMathVec(mathvec);
+   // cmesh.SetMathStatement(0,mat1);
+    // cmesh.SetMathStatement(1,bc_linha);
     cmesh.SetDefaultOrder(1);
     cmesh.AutoBuild();
     cmesh.Resequence();
 
-        Analysis locAnalysis(&cmesh);
+    Analysis locAnalysis(&cmesh);
     locAnalysis.RunSimulation();
     PostProcessTemplate<Poisson> postprocess;
-    auto exact = [](const VecDouble &x, VecDouble &val, MatrixDouble &deriv)
-    {
-        val[0] = (1.-x[0])*x[0]*(1-x[1])*x[1];
-        deriv(0,0) = (1.-2.*x[0])*(1-x[1])*x[1];
-        deriv(1,0) = (1-2.*x[1])*(1-x[0])*x[0];
-    };
+    
 
 //    if (!strcmp("Sol", name.c_str())) return ESol;
 //    if (!strcmp("DSol", name.c_str())) return EDSol;
@@ -85,7 +103,7 @@ int main ()
     postprocess.AppendVariable("DSolExact");
     postprocess.SetExact(exact);
     mat1->SetExactSolution(exact);
-    locAnalysis.PostProcessSolution("quads.vtk", postprocess);
+    locAnalysis.PostProcessSolution(filename+".vtk", postprocess);
 
     VecDouble errvec;
     errvec = locAnalysis.PostProcessError(std::cout, postprocess);

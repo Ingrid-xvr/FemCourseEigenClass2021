@@ -41,10 +41,22 @@ void ShapeTriangle::Shape(const VecDouble &xi, VecInt &orders, VecDouble &phi, M
     dphi(0,2) =  0.;
     dphi(1,2) =  1.;
     
-    std::cout << "Please implement me\n";
-    DebugStop();
-    
-    
+    // p quadratico
+    int count = 3;
+
+    for(int i=3; i<7; i++){ // arestas
+        if(orders[i]==2){
+            int aux1 = SideNodeLocIndex(i, 0);
+            int aux2 = SideNodeLocIndex(i, 1);
+
+            phi[count] = 4.*phi[aux1]*phi[aux2];
+
+            dphi(0,count) = 4.*(dphi(0,aux1)*phi[aux2]+phi[aux1]*dphi(0,aux2));
+            dphi(1,count) = 4.*(dphi(1,aux1)*phi[aux2]+phi[aux1]*dphi(1,aux2));
+
+            count++; 
+        }
+    }    
 }
 
 /// returns the number of shape functions associated with a side

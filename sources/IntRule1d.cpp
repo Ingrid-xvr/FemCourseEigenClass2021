@@ -16,12 +16,11 @@ using namespace std;
 #define PI 3.141592654
 
 IntRule1d::IntRule1d(){
-
+    SetOrder(0);
 }
 
 IntRule1d::IntRule1d(int order) : IntRule(order) {
-    std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-    DebugStop();
+    SetOrder(order);
 }
 
 void IntRule1d::SetOrder(int order) {
