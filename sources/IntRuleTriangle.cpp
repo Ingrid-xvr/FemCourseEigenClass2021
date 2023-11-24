@@ -42,8 +42,8 @@ void IntRuleTriangle::SetOrder(int order) {
         fPoints(0,1) = 2./3.;
         fPoints(1,0) = 1./6.;
         fPoints(1,1) = 1./6.;
-        fPoints(2,0) = 1./6.;
-        fPoints(2,1) = 2./3.;
+        fPoints(2,0) = 2./3.;
+        fPoints(2,1) = 1./6.;
        
         fWeights[0] = 1./6.;
         fWeights[1] = 1./6.;
@@ -70,6 +70,9 @@ void IntRuleTriangle::SetOrder(int order) {
         break;
 
     case 4:
+        fPoints.resize(6,2);
+        fWeights.resize(6);
+
         fPoints(0,0) = 0.445948490915965;
         fPoints(0,1) = 0.108103018168070;
         fPoints(1,0) = 0.445948490915965;
@@ -90,8 +93,37 @@ void IntRuleTriangle::SetOrder(int order) {
         fWeights[4] = 0.109951743655322/2.;
         fWeights[5] = 0.109951743655322/2.;
         break;
+    case 5:
+        fPoints.resize(7,2);
+        fWeights.resize(7);
+
+        fPoints(0,0) = 0.333333333333333;
+        fPoints(0,1) = 0.333333333333333;
+        fPoints(1,0) = 0.470142064105115;
+        fPoints(1,1) = 0.059715871789770;
+        fPoints(2,0) = 0.470142064105115;
+        fPoints(2,1) = 0.470142064105115;
+        fPoints(3,0) = 0.059715871789770;
+        fPoints(3,1) = 0.470142064105115;
+        fPoints(4,0) = 0.101286507323456;
+        fPoints(4,1) = 0.797426985353087;
+        fPoints(5,0) = 0.101286507323456;
+        fPoints(5,1) = 0.101286507323456;
+        fPoints(6,0) = 0.797426985353087;
+        fPoints(6,1) = 0.101286507323456;
+
+        fWeights[0] = 0.225/2.;
+        fWeights[1] = 0.132394152788506/2.;
+        fWeights[2] = 0.132394152788506/2.;
+        fWeights[3] = 0.132394152788506/2.;
+        fWeights[4] = 0.125939180544827/2.;
+        fWeights[5] = 0.125939180544827/2.;
+        fWeights[6] = 0.125939180544827/2.;
+
+        break;
         
    default:
+    DebugStop();
     break;
    }
 }

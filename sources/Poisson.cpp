@@ -136,7 +136,6 @@ void Poisson::Contribute(IntPointData &data, double weight, MatrixDouble &EK, Ma
 
     EK += weight * dphi3 * perm * dphi2;
     EF += weight * res * phi;
-
 }
 
 void Poisson::PostProcessSolution(const IntPointData &data, const int var, VecDouble &Solout) const {

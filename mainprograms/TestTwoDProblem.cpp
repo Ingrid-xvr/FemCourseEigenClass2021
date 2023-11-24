@@ -67,7 +67,7 @@ int main ()
         //deriv(0,0) = (1.-2.*x[0])*(1-x[1])*x[1];
         //deriv(1,0) = (1-2.*x[1])*(1-x[0])*x[0];
     };
-    
+    mat1->SetExactSolution(exact);
     mat1->SetForceFunction(force);
     MatrixDouble proj(1,1),val1(1,1),val2(1,1);
     proj.setZero();

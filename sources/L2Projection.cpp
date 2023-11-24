@@ -89,11 +89,11 @@ void L2Projection::Contribute(IntPointData &data, double weight, MatrixDouble &E
             EK += gBigNumber * weight * data.phi * data.phi.transpose();
             
             break;
-        }
+        } 
 
         case 1:
         {
-            // Your code here
+            EF += weight * data.phi * result[0];
             break;
         }
 

@@ -79,14 +79,14 @@ void IntRuleQuad::SetOrder(int order) {
         fPoints(8,1) = sqrt(3./5.);
 
         fWeights[0] = 25./81.;
-        fWeights[0] = 40./81.;
-        fWeights[0] = 25./81.;
-        fWeights[0] = 40./81.;
-        fWeights[0] = 64./81.;
-        fWeights[0] = 40./81.;
-        fWeights[0] = 25./81.;
-        fWeights[0] = 40./81.;
-        fWeights[0] = 25./81.;
+        fWeights[1] = 40./81.;
+        fWeights[2] = 25./81.;
+        fWeights[3] = 40./81.;
+        fWeights[4] = 64./81.;
+        fWeights[5] = 40./81.;
+        fWeights[6] = 25./81.;
+        fWeights[7] = 40./81.;
+        fWeights[8] = 25./81.;
 
         break;
     default:

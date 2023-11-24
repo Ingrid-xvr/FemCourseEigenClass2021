@@ -44,7 +44,7 @@ void ShapeTriangle::Shape(const VecDouble &xi, VecInt &orders, VecDouble &phi, M
     // p quadratico
     int count = 3;
 
-    for(int i=3; i<7; i++){ // arestas
+    for(int i=3; i<6; i++){ // arestas
         if(orders[i]==2){
             int aux1 = SideNodeLocIndex(i, 0);
             int aux2 = SideNodeLocIndex(i, 1);

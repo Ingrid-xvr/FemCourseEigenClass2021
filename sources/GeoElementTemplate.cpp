@@ -70,7 +70,7 @@ void GeoElementTemplate<TGeom>::GradX(const VecDouble &xi, VecDouble &x, MatrixD
     int NNodes = this->NNodes();
     MatrixDouble coord(3, NNodes);
     coord.setZero();
-    int dim = Dimension();
+    int dim = GMesh->Dimension();
 
     int i, j;
     for (i = 0; i < NNodes; i++) {
@@ -80,7 +80,6 @@ void GeoElementTemplate<TGeom>::GradX(const VecDouble &xi, VecDouble &x, MatrixD
             coord(j, i) = node.Coord(j);
         }
     }
-    x.setZero();
     gradx.setZero();
     Geom.GradX(xi, coord, x, gradx);
     // std::cout << "xi " << xi << "\nx " << x << std::endl;
