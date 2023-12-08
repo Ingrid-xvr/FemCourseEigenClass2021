@@ -1,0 +1,14 @@
+auto force = [](const VecDouble &x, VecDouble &res)
+    {
+        res[0] = 0.;
+    };
+
+    auto exact = [](const VecDouble &x, VecDouble &val, MatrixDouble &deriv)
+    {
+        const double tempX = x[0];
+        const double tempY = x[1];
+
+        val[0] = 1.; //u(x,y)
+        deriv(0,0) = 0.;
+        deriv(1,0) = 0.;
+    };
