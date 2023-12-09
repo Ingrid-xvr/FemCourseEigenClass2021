@@ -65,6 +65,8 @@ void Analysis::RunSimulation() {
 
     assemb.Compute(K, F);
     std::cout << "Assemble done!" << std::endl;
+    //std::cout << "k!" << K << std::endl;
+    //std::cout << "F!" << F << std::endl;
 
     GlobalSystem = K;
     RightHandSide = F;

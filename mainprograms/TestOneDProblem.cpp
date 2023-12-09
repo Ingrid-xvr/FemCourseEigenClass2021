@@ -77,7 +77,7 @@ int main ()
     // as condicoes de contorno
     std::vector<MathStatement *> mathvec = {nullptr,mat1,bc_linha,bc_point};
     cmesh.SetMathVec(mathvec);
-    cmesh.SetDefaultOrder(1);
+    cmesh.SetDefaultOrder(2);
     cmesh.AutoBuild();
     cmesh.Resequence();
 

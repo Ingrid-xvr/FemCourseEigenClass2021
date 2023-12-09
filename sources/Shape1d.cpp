@@ -34,6 +34,16 @@ void Shape1d::Shape(const VecDouble &xi, VecInt &orders, VecDouble &phi, MatrixD
     
     dphi(0,0) = -0.5;
     dphi(0,1) = 0.5;
+    
+    //ordem 2 para 1D
+    if((nshape-1)==2){
+        phi[2] = 4.* phi[0]*phi[1];
+        dphi(0, 2) = 4. * (dphi(0, 0) * phi[1] + dphi(0, 1)*phi[0]);
+    }
+    else if((nshape-1)!=1){
+        DebugStop();
+    }
+        
 }
 
 /// returns the number of shape functions associated with a side

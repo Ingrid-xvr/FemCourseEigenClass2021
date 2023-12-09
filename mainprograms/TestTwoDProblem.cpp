@@ -32,7 +32,7 @@ int main ()
     
     bool recombine = false;
     
-    std::string filename = (recombine) ? "MeshQuad" : "MeshTri";
+    std::string filename = (recombine) ? "MalhaAnelQuad_caso4" : "MalhaAnelTria_caso4";
 
 #ifdef MACOSX
     filename = "../"+filename;
@@ -46,27 +46,36 @@ int main ()
     perm(1,1) = 1.;
     perm(2,2) = 1.;
     Poisson *mat1 = new Poisson(1,perm);
-    mat1->SetDimension(2);
+    mat1->SetDimension(2); //dimensão
 
-    auto force = [](const VecDouble &x, VecDouble &res)
-    {
-        res[0] = 0.;
-        //res[0] = 2.*(1.-x[0])*x[0]+2.*(1-x[1])*x[1];
-    };
-
-    auto exact = [](const VecDouble &x, VecDouble &val, MatrixDouble &deriv)
+   auto force = [](const VecDouble &x, VecDouble &res)
     {
         const double tempX = x[0];
         const double tempY = x[1];
+        double pi = M_PI;
+        
 
-        val[0] = tempX*tempY;
-        deriv(0,0) = tempY;
-        deriv(1,0) = tempX;
+        res[0]=10.*pi*pi*sin(3.*pi*x[0])*sin(pi*x[1]);
 
+    };
+    
+        auto exact = [](const VecDouble &x, VecDouble &val, MatrixDouble &deriv)
+    {
+        const double tempX = x[0];
+        const double tempY = x[1];
+        double pi = M_PI;
+
+        val[0] = sin(3.*pi*x[0])*sin(pi*x[1]);
+        deriv(0,0) = 3.*pi*cos(3.*pi*x[0])*sin(pi*x[1]);
+        deriv(1,0) = pi*cos(pi*x[1])*sin(3.*pi*x[0]);    
+          
+    };
+
+        //res[0] = 2.*(1.-x[0])*x[0]+2.*(1-x[1])*x[1];
         //val[0] = (1.-x[0])*x[0]*(1-x[1])*x[1];
         //deriv(0,0) = (1.-2.*x[0])*(1-x[1])*x[1];
         //deriv(1,0) = (1-2.*x[1])*(1-x[0])*x[0];
-    };
+
     mat1->SetExactSolution(exact);
     mat1->SetForceFunction(force);
     MatrixDouble proj(1,1),val1(1,1),val2(1,1);
@@ -80,7 +89,8 @@ int main ()
    cmesh.SetMathVec(mathvec);
    // cmesh.SetMathStatement(0,mat1);
     // cmesh.SetMathStatement(1,bc_linha);
-    cmesh.SetDefaultOrder(1);
+    cmesh.SetDefaultOrder(2); //grau 1 ou 2
+
     cmesh.AutoBuild();
     cmesh.Resequence();
 
